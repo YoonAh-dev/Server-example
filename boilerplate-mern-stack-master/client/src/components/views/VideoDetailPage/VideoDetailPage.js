@@ -4,13 +4,14 @@ import Axios from 'axios'
 import SideVideo from './Sections/SideVideo'
 import Subscribe from './Sections/Subscribe'
 import Comment from './Sections/Comment'
+import LikeDislikes from './Sections/LikeDislikes'
 
 function VideoDetailPage(props) {
 
     const videoId = props.match.params.videoId
     const variable = { videoId: videoId}
 
-    const [VideoDetail, setVideoDetail] = useState([])
+    const [VideoDetail, setVideoDetail] = useState("")
     const [Comments, setComments] = useState([])
 
     useEffect(() => {
@@ -22,7 +23,7 @@ function VideoDetailPage(props) {
                     alert('비디오 정보를 가져오길 실패했습니다.')
                 }
             })
-
+ 
         Axios.post('/api/comment/getComments', variable)
             .then(response => {
                 if(response.data.success) {
@@ -51,7 +52,7 @@ function VideoDetailPage(props) {
                         <video style={{ width: '100%' }} src={`http://localhost:5000/${VideoDetail.filePath}`} controls />
     
                         <List.Item
-                            actions={[ subscribeButton ]}
+                            actions={[ <LikeDislikes video userId={localStorage.getItem('userId')} videoId={videoId} />,subscribeButton ]}
                         >
                                 <List.Item.Meta
                                     avatar={<Avatar src={VideoDetail.writer.image} />}
