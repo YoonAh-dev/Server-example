@@ -10,7 +10,7 @@ function LikeDislikes(props) {
     const [LikeAction, setLikeAction] = useState(null)
     const [DislikeAction, setDislikeAction] = useState(null)
 
-    let variable = { }
+    let variable = {}
 
     if(props.video) {
         variable = { videoId: props.videoId, userId: props.userId }
@@ -53,27 +53,92 @@ function LikeDislikes(props) {
             }
         })
     }, [])
+
+    const onLike = () => {
+        if(LikeAction === null) {
+            Axios.post('/api/like/upLike', variable)
+                .then(response => {
+                    if(response.data.success) {
+                        setLikes(Likes + 1)
+                        setLikeAction('liked')
+
+                        if(DislikeAction !== null) {
+                            setDislikeAction(null)
+                            setDislikes(Dislikes - 1)
+                        }
+                    } else {
+                        alert('Like를 올리지 못했습니다.')
+                    }
+                })
+        } else {
+            Axios.post('/api/like/unLike', variable)
+                .then(response => {
+                    if(response.data.success) {
+                        setLikes(Likes - 1)
+                        setLikeAction(null)
+                    } else {
+                        alert('Like를 내리지 못했습니다.')
+                    }
+                })
+        }
+    }
+
+    const onDisLike = () => {
+        if(DislikeAction !== null) {
+            Axios.post('/api/like/unDislike', variable)
+                .then(response => {
+                    if(response.data.success) {
+                        setDislikes(Dislikes - 1)
+                        setDislikeAction(null)
+                    } else {
+                        alert('dislike을 지우지 못했습니다.')
+                    }
+                })
+        } else {
+            Axios.post('/api/like/upDislike', variable)
+                .then(response => {
+                    if(response.data.success) {
+                        setDislikes(Dislikes + 1)
+                        setDislikeAction('disliked')
+
+                        if(LikeAction !== null) {
+                            setLikeAction(null)
+                            setLikes(Likes - 1)
+                        }
+                    } else {
+                        alert('dislike을 올리지 못했습니다.')
+                    }
+                })
+        }
+    }
+
     return (
         <div>
            <span key="comment-basic-like">
-                <Tooltip title="Like">
-                    <Icon type="like" 
-                        theme={LikeAction === 'liked' ? 'filled' : 'outlined'}
-                        onClick
-                    />
-                </Tooltip>
+                <button 
+                    style={{ 
+                        backgroundColor: `${LikeAction === 'liked' ? 'yellow' : 'white'}`, borderRadius: '4px',
+                        color: 'white',
+                        fontWeight: '500', fontSize: '1rem', textTransform: 'uppercase'
+                    }}
+                    onClick={onLike}
+                > 👍
+                </button>
                  <span style={{ paddingLeft: '8px', cursor: 'auto' }}> {Likes} </span>
-           </span>
+           </span> &nbsp; &nbsp;
 
            <span key="comment-basic-dislike">
-                <Tooltip title="Dislike">
-                    <Icon type="dislike" 
-                        theme={DislikeAction === 'disliked' ? 'filled' : 'outlined'}
-                        onClick
-                    />
-                </Tooltip>
-                <span style={{ paddingLeft: '8px', cursor: 'auto' }}> {Dislikes} </span>
-           </span>
+                <button 
+                    style={{ 
+                        backgroundColor: `${DislikeAction === 'disliked' ? 'yellow' : 'white'}`, borderRadius: '4px',
+                        color: 'white',
+                        fontWeight: '500', fontSize: '1rem', textTransform: 'uppercase'
+                    }}
+                    onClick={onDisLike}
+                > 👎
+                </button>
+                 <span style={{ paddingLeft: '8px', cursor: 'auto' }}> {Dislikes} </span>
+           </span> &nbsp; &nbsp;
         </div>
     )
 }
