@@ -8,7 +8,8 @@ const CommentSchema = new Schema({
     user: {
         type: ObjectId, 
         required: true,
-        ref: "User"
+        ref: "User",
+        index: true
     },
     userFullName: {
         type: String,

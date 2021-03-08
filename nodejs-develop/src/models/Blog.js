@@ -35,8 +35,12 @@ const BlogSchema = new Schema({
             }
         }
     },
-    comments: [ CommentSchema ]
+    // comments: [ CommentSchema ]
 }, { timestamps: true })
+
+// 복합키 만드는 곳(index 하나 만드는 것)
+BlogSchema.index({ 'user._id': 1, updateAt: 1 })
+BlogSchema.index({ title: "text", content: "text" })
 
 // 가상데이터
 // BlogSchema.virtual("comments", {

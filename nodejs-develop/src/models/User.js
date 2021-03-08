@@ -16,7 +16,7 @@ const UserSchema = new Schema({
             required: true
         }
     },
-    age: Number,
+    age: { type: Number, index: true },
     email: String
 }, { timestamps: true })
 

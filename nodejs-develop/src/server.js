@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const dev = require('./dev');
 const { userRouter, blogRouter } = require('./routes');
-// const { generateFakeData } = require('../faker2');
+const { generateFakeData } = require('../faker2');
 
 const server = async() => {
     try {
@@ -22,9 +22,7 @@ const server = async() => {
         app.listen(3000, async () => {
             try {
                 console.log('server listening on port 3000');
-                // for(let i = 0; i < 20; i++) {
-                //     await generateFakeData(10, 1, 10);
-                // }
+                // await generateFakeData(10, 10, 10);
             } catch (err) {
                 console.log({ err })
             }
