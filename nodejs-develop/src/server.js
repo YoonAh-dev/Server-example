@@ -22,7 +22,7 @@ const server = async() => {
         app.listen(3000, async () => {
             try {
                 console.log('server listening on port 3000');
-                // await generateFakeData(10, 10, 10);
+                // await generateFakeData(10, 2, 10);
             } catch (err) {
                 console.log({ err })
             }

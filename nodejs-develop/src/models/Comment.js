@@ -22,5 +22,7 @@ const CommentSchema = new Schema({
     }
 }, { timestamps: true })
 
+CommentSchema.index({ blog: 1, createdAt: -1 });
+
 const Comment = model('Comment', CommentSchema);
 module.exports = { Comment, CommentSchema };

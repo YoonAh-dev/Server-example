@@ -35,7 +35,12 @@ const BlogSchema = new Schema({
             }
         }
     },
-    // comments: [ CommentSchema ]
+    commentsCount: { 
+        type: Number,
+        default: 0,
+        required: true
+    },
+    comments: [ CommentSchema ]
 }, { timestamps: true })
 
 // 복합키 만드는 곳(index 하나 만드는 것)
